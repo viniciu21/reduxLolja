@@ -1,50 +1,66 @@
-import React, { useState, useEffect } from 'react'
+import React, { Component } from 'react'
+
+import { connect } from 'react-redux'
+import {bindActionCreators} from 'redux';
 
 import { MdAddShoppingCart } from 'react-icons/md'
 
 import { ProductList } from './styles'
 
-import { formatPrice } from '../../utils/format';
+import { formatPrice } from '../../utils/format'
 
-import api from '../../services/api';
+import api from '../../services/api'
 
-const Home = () => {
+import * as CartAction from '../../store/modules/cart/actions';
+class Home extends Component {
+  state = {
+    products: [],
+  }
 
-  const [products, setProducts] = useState();
+  async componentDidMount() {
+    const { data } = await api.get('products')
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await api.get('/products');
+    const dataFormat = data.map((product) => ({
+      ...product,
+      priceFormated: formatPrice(product.price),
+    }))
 
-      const dataFormat = data.map((product) => ({
-        ...product, priceFormat: formatPrice(product.price)
-      }))
+    this.setState({ products: dataFormat })
+  }
 
-      setProducts(dataFormat);
-    })()
-  }, []);
+  handleAddProduct = (product) => {
+    const { addToCart } = this.props
 
-  return (
-    <ProductList>
-      {products?.map(product => (
-        <li key={product.id}>
-          <img
-            src={product.image}
-            alt="T-SHiRT"
-          />
-          <strong> {product.title}</strong>
-          <span>{product.priceFormat}</span>
-          <button type="button">
-            <div>
-              <MdAddShoppingCart size={16} color="white" /> 3
-          </div>
+    addToCart(product);
+  }
 
-            <span> Adicionar ao Carrinho </span>
-          </button>
-        </li>
-      ))}
-    </ProductList>
-  )
+  render() {
+    const { products } = this.state
+
+    return (
+      <ProductList>
+        {products?.map((product) => (
+          <li key={product.id}>
+            <img src={product.image} alt="T-SHiRT" />
+            <strong> {product.title}</strong>
+            <span>{product.priceFormated}</span>
+            <button
+              type="button"
+              onClick={() => this.handleAddProduct(product)}
+            >
+              <div>
+                <MdAddShoppingCart size={16} color="white" /> 3
+              </div>
+
+              <span> Adicionar ao Carrinho </span>
+            </button>
+          </li>
+        ))}
+      </ProductList>
+    )
+  }
 }
 
-export default Home
+const mapDispatchToProps = dispatch => bindActionCreators(CartAction, dispatch);
+
+export default connect(null, mapDispatchToProps)(Home)

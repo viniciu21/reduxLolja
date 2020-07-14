@@ -1,10 +1,12 @@
 import React from 'react'
 
+import './config/ReactotronConfig'
+
 import Routes from './routes'
 import { BrowserRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
-import store from './store';
+import store from './store'
 
 import Global from './styles/global'
 
