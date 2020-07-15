@@ -1,9 +1,7 @@
-import {all} from 'redux-saga/effects';
+import { all } from 'redux-saga/effects'
 
-import cart from './cart/sagas';
+import cart from './cart/sagas'
 
-export default function* rootSaga(){
-  return yield all([
-    cart,
-  ]);
+export default function* rootSaga() {
+  return yield all([cart])
 }

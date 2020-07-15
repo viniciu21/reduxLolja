@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
+import 'react-toastify/dist/ReactToastify.css'
+
 import background from '../assets/background.svg'
 
 const Global = createGlobalStyle`
@@ -21,7 +23,7 @@ const Global = createGlobalStyle`
     body, input, button{
         font: 14px sans-serif;
     }
-    
+
     #root{
         max-width: 1020px;
         margin: 0 auto;

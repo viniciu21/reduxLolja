@@ -13,7 +13,7 @@ import { bindActionCreators } from 'redux'
 
 import { formatPrice } from '../../utils/format'
 
-const Cart = ({ cart,total, removeFromCart, updateAmount }) => {
+const Cart = ({ cart, total, removeFromCart, updateAmount }) => {
   function increment(product) {
     updateAmount(product.id, product.amount + 1)
   }
@@ -88,9 +88,9 @@ const mapStateToProps = (state) => ({
   })),
   total: formatPrice(
     state.cart.reduce((total, product) => {
-      return total + product.price * product.amount;
-    },0)
-  )
+      return total + product.price * product.amount
+    }, 0)
+  ),
 })
 
 const mapDispatchToProps = (dispatch) =>
