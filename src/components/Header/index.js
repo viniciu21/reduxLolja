@@ -1,14 +1,16 @@
 import React from 'react'
 import logo from '../../assets/logo.svg'
 import { MdShoppingBasket } from 'react-icons/md'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { Link } from 'react-router-dom'
 
 import { Container, Cart } from './styles'
 
-const Header = ({ cartSize }) => {
-  // console.log(cart)
+const Header = () => {
+
+  const cartSize = useSelector(state => state.cart.length);
+
   return (
     <Container>
       <Link to="/">
@@ -26,6 +28,4 @@ const Header = ({ cartSize }) => {
   )
 }
 
-export default connect((state) => ({
-  cartSize: state.cart.length,
-}))(Header)
+export default Header;
